@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  proxy:
+    image: nginx
+    depends_on:
+      - frontend
+      - backend
+    volumes:
+      - ./proxy/templates/:/etc/nginx/templates/
+    ports:
+      - "80:80"
+  frontend:
+    build:
+      context: ./frontend
+      target: PROD
+  backend:
+    build: 
+      context: ./backend
+      target: PROD
+    restart: unless-stopped
+    environment:
+      - DEBUG=$DEBUG
+    stdin_open: true
+    tty: true

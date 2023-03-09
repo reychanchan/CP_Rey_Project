@@ -1,0 +1,17 @@
+version: "3.9"
+services:      
+  nginx:
+    image: nginx
+    depends_on:
+      - view
+      - api
+    volumes:
+      - ./proxy/templates/:/etc/nginx/templates/
+    ports:
+      - "80:80"
+  api:
+    image: reychanchan/backend-prod:$NEW_VERSION
+    environment:
+      - DEBUG=$DEBUG
+  view:
+    image: reychanchan/frontend-prod:$NEW_VERSION
